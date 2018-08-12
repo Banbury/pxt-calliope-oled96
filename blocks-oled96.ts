@@ -1,4 +1,4 @@
-//% color=#fabe58 icon="\uf3cd" block="Grove OLED"
+//% color=#fabe58 icon="\uf108" block="Grove OLED"
 namespace oled96 {
     //% blockId=oled96_init_display
     //% block="initialize display"
