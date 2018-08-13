@@ -30,17 +30,23 @@ namespace oled96 {
         setTextXY(0, 0);
     }
 
+    //% blockId=oled96_clear_range
+    //% block="clear %n|characters"
+    export function clearRange(n: number) {
+        for (let i = 0; i < n; i++) {
+            putChar(' ');
+        }
+    }
+
     //% blockId=oled96_set_text
     //% block="set display cursor to|row %row|and column %column"
     export function setTextXY(row: number, column: number) {
         let r = row;
         let c = column;
-        if (row > 7) {
-            r = 7;
-        }
-        if (column > 15) {
-            c = 15;
-        }
+        if (row < 0) { r = 0 }
+        if (column < 0) { c = 0 }
+        if (row > 7) { r = 7 }
+        if (column > 15) { c = 15 }
 
         cmd(0xB0 + r);            //set page address
         cmd(0x00 + (8 * c & 0x0F));  //set column lower address
@@ -51,10 +57,9 @@ namespace oled96 {
         let c1 = c.charCodeAt(0);
         if (c1 < 32 || c1 > 127) //Ignore non-printable ASCII characters. This can be modified for multilingual font.
         {
-            c1 = 0x20; //Space
-        }
-        for (let i = 0; i < 8; i++) {
-            pins.i2cWriteNumber(0x3c, 0x4000 + basicFont[c1 - 32].charCodeAt(i), NumberFormat.UInt16BE);
+            writeCustomChar("\x00\xFF\x81\x81\x81\xFF\x00\x00");
+        } else {
+            writeCustomChar(basicFont[c1 - 32]);
         }
     }
 
@@ -103,6 +108,14 @@ namespace oled96 {
         }
         cmd(0x81);
         cmd(b);
+    }
+
+    //% blockId=oled96_write_custom_char
+    //% block="write custom character %c"
+    export function writeCustomChar(c: string) {
+        for (let i = 0; i < 8; i++) {
+            pins.i2cWriteNumber(0x3c, 0x4000 + c.charCodeAt(i), NumberFormat.UInt16BE);
+        }
     }
 
     //% blockId=oled96_send_command
