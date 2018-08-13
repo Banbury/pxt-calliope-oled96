@@ -126,7 +126,7 @@ namespace oled96 {
     //% block="write custom character %c"
     export function writeCustomChar(c: string) {
         for (let i = 0; i < 8; i++) {
-            pins.i2cWriteNumber(0x3c, 0x4000 + c.charCodeAt(i), NumberFormat.UInt16BE);
+            writeData(c.charCodeAt(i));
         }
     }
 
@@ -134,6 +134,16 @@ namespace oled96 {
     //% block="send command %c|to display"
     export function cmd(c: number) {
         pins.i2cWriteNumber(0x3c, c, NumberFormat.UInt16BE);
+    }
+
+    //% blockId=oled96_write_data
+    //% block="send data %n|to display"
+    export function writeData(n: number) {
+        var b = n;
+        if (n < 0) { n = 0 }
+        if (n > 255) { n = 255 }
+
+        pins.i2cWriteNumber(0x3c, 0x4000 + b, NumberFormat.UInt16BE);
     }
 }
 
