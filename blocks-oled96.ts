@@ -1,5 +1,12 @@
+/**
+ * Provides functions to control the Grove OLED 0.96" from a Calliope Mini.
+ */
 //% color=#fabe58 icon="\uf108" block="Grove OLED"
 namespace oled96 {
+    /**
+     * Resets the display and clears it.
+     * Should be used at the start of the program.
+     */
     //% blockId=oled96_init_display
     //% block="initialize display"
     export function initDisplay(): void {
@@ -13,6 +20,9 @@ namespace oled96 {
         clearDisplay();
     }
 
+    /**
+     * Clears the whole display.
+     */
     //% blockId=oled96_clear_display
     //% block="clear display"
     export function clearDisplay() {
@@ -30,6 +40,11 @@ namespace oled96 {
         setTextXY(0, 0);
     }
 
+    /**
+     * Clears a range of characters, beginning from the current
+     * cursor position.
+     * @param n Number of characters to delete
+     */
     //% blockId=oled96_clear_range
     //% block="clear %n|characters"
     export function clearRange(n: number) {
@@ -38,6 +53,11 @@ namespace oled96 {
         }
     }
 
+    /**
+     * Move the cursor to a new position.
+     * @param row Vertical cursor position
+     * @param column Horizontal cursor position
+     */
     //% blockId=oled96_set_text
     //% block="set display cursor to|row %row|and column %column"
     export function setTextXY(row: number, column: number) {
@@ -53,6 +73,10 @@ namespace oled96 {
         cmd(0x10 + ((8 * c >> 4) & 0x0F));   //set column higher address
     }
 
+    /**
+     * Writes a single character to the display.
+     * @param c 
+     */
     function putChar(c: string) {
         let c1 = c.charCodeAt(0);
         if (c1 < 32 || c1 > 127) //Ignore non-printable ASCII characters. This can be modified for multilingual font.
@@ -63,6 +87,9 @@ namespace oled96 {
         }
     }
 
+    /**
+     * Writes a string to the display at the current cursor position.
+     */
     //% blockId=oled96_write_string
     //% block="write %s|to display"
     export function writeString(s: string) {
@@ -71,18 +98,27 @@ namespace oled96 {
         }
     }
 
+    /**
+     * Changes the display to white characters on a black background.
+     */
     //% blockId=oled96_normal_display
     //% block="set display to white on black"
     export function normalDisplay() {
         cmd(NORMAL_DISPLAY);
     }
 
+    /**
+     * Changes the display to black characters on a white background.
+     */
     //% blockId=oled96_invert_display
     //% block="set display to black on white"
     export function invertDisplay() {
         cmd(INVERT_DISPLAY);
     }
 
+    /**
+     * Flips the display upside down.
+     */
     //% blockId=oled96_flip_screen
     //% block="flip display"
     export function flipScreen() {
@@ -96,6 +132,9 @@ namespace oled96 {
         cmd(DISPLAY_ON);
     }
 
+    /**
+     * Changes the brightness of the display. Values range from 0 to 255.
+     */
     //% blockId=oled96_set_brightness
     //% block="set display brightness|to %brightness"
     export function setDisplayBrightness(brightness: number) {
@@ -110,18 +149,32 @@ namespace oled96 {
         cmd(b);
     }
 
+    /**
+     * Turns the display off.
+     */
     //% blockId=oled96_turn_off
     //% block="turn display off"
     export function turnOff() {
         cmd(DISPLAY_OFF);
     }
 
+    /**
+     * Turns the display on.
+     */
     //% blockId=oled96_turn_on
     //% block="turn display on"
     export function turnOn() {
         cmd(DISPLAY_ON);
     }
 
+    /**
+     * Writes a custom character to the display
+     * at the current cursor position.
+     * A character is a string of 8 bytes. Each byte represesnts
+     * a line of the character. The eight bits of each byte
+     * represent the pixels of a line of the character.
+     * Ex. "\x00\xFF\x81\x81\x81\xFF\x00\x00"
+     */
     //% blockId=oled96_write_custom_char
     //% block="write custom character %c"
     export function writeCustomChar(c: string) {
@@ -130,12 +183,23 @@ namespace oled96 {
         }
     }
 
+    /**
+     * Sends a command to the display.
+     * Only use this, if you know what you are doing.
+     * 
+     * For valid commands refer to the documentation of
+     * the SSD1308.
+     */
     //% blockId=oled96_send_command
     //% block="send command %c|to display"
     export function cmd(c: number) {
         pins.i2cWriteNumber(0x3c, c, NumberFormat.UInt16BE);
     }
 
+    /**
+     * Writes a byte to the display.
+     * Could be used to directly paint to the display.
+     */
     //% blockId=oled96_write_data
     //% block="send data %n|to display"
     export function writeData(n: number) {
