@@ -110,6 +110,18 @@ namespace oled96 {
         cmd(b);
     }
 
+    //% blockId=oled96_turn_off
+    //% block="turn display off"
+    export function turnOff() {
+        cmd(DISPLAY_OFF);
+    }
+
+    //% blockId=oled96_turn_on
+    //% block="turn display on"
+    export function turnOn() {
+        cmd(DISPLAY_ON);
+    }
+
     //% blockId=oled96_write_custom_char
     //% block="write custom character %c"
     export function writeCustomChar(c: string) {
