@@ -55,8 +55,6 @@ namespace oled96 {
 
     /**
      * Move the cursor to a new position.
-     * @param row Vertical cursor position
-     * @param column Horizontal cursor position
      */
     //% blockId=oled96_set_text
     //% block="set display cursor to|row %row|and column %column"
@@ -75,7 +73,6 @@ namespace oled96 {
 
     /**
      * Writes a single character to the display.
-     * @param c 
      */
     function putChar(c: string) {
         let c1 = c.charCodeAt(0);
@@ -203,7 +200,7 @@ namespace oled96 {
     //% blockId=oled96_write_data
     //% block="send data %n|to display"
     export function writeData(n: number) {
-        var b = n;
+        let b = n;
         if (n < 0) { n = 0 }
         if (n > 255) { n = 255 }
 
