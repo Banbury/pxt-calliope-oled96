@@ -1,6 +1,6 @@
 # MakeCode blocks for the Grove OLED 0.96" display
 
-This is a library of MakeCode blocks for controlling the [Grove - OLED Display 0.96"](https://www.seeedstudio.com/Grove-OLED-Display-0.96%26quot%3B-p-781.html) from Seeed.
+This is a library of MakeCode blocks for controlling the [Grove - OLED Display 0.96"](https://www.seeedstudio.com/Grove-OLED-Display-0.96%26quot%3B-p-781.html) with the SSD1308 chip from Seeed.
 It's a port of the C++ library provided by Seeed to Typescript with some minor improvements.
 
 This library is meant for the Calliope Mini.
